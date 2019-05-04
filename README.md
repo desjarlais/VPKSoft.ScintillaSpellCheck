@@ -7,3 +7,6 @@ A spell checking library for the ScintillaNET.
 * [JetBrains](http://www.jetbrains.com) for their open source license(s).
 
 ![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
+
+## Screeshot
+![image](https://user-images.githubusercontent.com/40712699/57181843-87e17300-6ea1-11e9-80ad-2c30990ff16a.png)
