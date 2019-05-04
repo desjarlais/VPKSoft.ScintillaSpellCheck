@@ -171,7 +171,8 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <param name="point">The point where the menu should be shown at.</param>
         /// <param name="pos">The position of the word for suggest alternatives to.</param>
         /// <returns>A <see cref="ContextMenuStrip"/> containing suggestions for the word.</returns>
-        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos)
+//        /// <param name="toExistingMenu">A value indicating whether the menu should be appended to an existing context menu.</param>
+        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos /*, bool toExistingMenu*/)
         {
             // clean the previous menu (dispose)..
             CleanPreviousSuggestMenu();
