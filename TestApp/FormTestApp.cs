@@ -48,8 +48,12 @@ namespace TestApp
 
         private void MnuSpellCheck_Click(object sender, EventArgs e)
         {
+            //scintilla.ContextMenuStrip = cmsTest; // comment this in case not needed for testing..
+
             ScintillaSpellCheck spellCheck = new ScintillaSpellCheck(scintilla,
                 @"C:\Files\GitHub\dictionaries\en\en_US.dic", @"C:\Files\GitHub\dictionaries\en\en_US.aff");
+
+            spellCheck.ToExistingMenu = false;
 
             spellCheck.SpellCheckScintilla();
         }

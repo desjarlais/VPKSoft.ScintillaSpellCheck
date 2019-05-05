@@ -50,6 +50,8 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <param name="affixFile">The affix file.</param>
         public ScintillaSpellCheck(Scintilla scintilla, string dictionaryFile, string affixFile)
         {
+            PreviousScintillaContextMenu = scintilla.ContextMenuStrip;
+
             this.scintilla = scintilla;
 
             this.scintilla.MouseDown += Scintilla_MouseDown;
@@ -130,24 +132,30 @@ namespace VPKSoft.ScintillaSpellCheck
         /// </summary>
         private void CleanPreviousSuggestMenu()
         {
-            // only do this if assigned..
-            if (PreviousSuggestMenu != null)
+            // only do this if there are spell check suggestions in the collection..
+            if (MenuItems.Count > 0)
             {
                 // loop through the drop down items and unsubscribe the click events..
-                foreach (ToolStripMenuItem item in PreviousSuggestMenu.Items)
+                foreach (ToolStripItem item in MenuItems)
                 {
+                    if (ToExistingMenu)
+                    {
+                        PreviousScintillaContextMenu?.Items.RemoveByKey(item.Name);
+                    }
                     item.Click -= OnSuggestMenuClick;
                 }
 
                 // clear the items after the event un-subscription..
-                PreviousSuggestMenu.Items.Clear();
+                PreviousSuggestMenu?.Items.Clear();
 
                 // dispose of the previous suggest menu..
-                using (PreviousSuggestMenu)
-                {
-                    // assign a null value for comparison within the class..
-                    PreviousSuggestMenu = null;
-                }
+                PreviousSuggestMenu?.Dispose();
+
+                // assign a null value for comparison within the class..
+                PreviousSuggestMenu = null;
+
+                // clear the list of menu items..
+                MenuItems.Clear();
             }
 
             // set the Scintilla's previous context menu back in place..
@@ -165,14 +173,20 @@ namespace VPKSoft.ScintillaSpellCheck
         private ContextMenuStrip PreviousScintillaContextMenu { get; set; }
 
         /// <summary>
+        /// Gets or set a value indicating whether the menu should be appended to an existing context menu.
+        /// </summary>
+        public bool ToExistingMenu { get; set; } = true;
+
+        private List<ToolStripItem> MenuItems { get; set; } = new List<ToolStripItem>();
+
+        /// <summary>
         /// Creates a new suggestion menu for words.
         /// </summary>
         /// <param name="suggestions">A collection of suggestions to show to the user.</param>
         /// <param name="point">The point where the menu should be shown at.</param>
         /// <param name="pos">The position of the word for suggest alternatives to.</param>
         /// <returns>A <see cref="ContextMenuStrip"/> containing suggestions for the word.</returns>
-//        /// <param name="toExistingMenu">A value indicating whether the menu should be appended to an existing context menu.</param>
-        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos /*, bool toExistingMenu*/)
+        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos)
         {
             // clean the previous menu (dispose)..
             CleanPreviousSuggestMenu();
@@ -180,22 +194,50 @@ namespace VPKSoft.ScintillaSpellCheck
             // create a new ContextMenuStrip class instance..
             ContextMenuStrip suggestMenu = new ContextMenuStrip();
 
+            int nameCounter = 0;
+
             // loop through the suggestions..
             foreach (var suggestion in suggestions)
             {
                 // ..and create ToolStripMenuItem's out of them..
-                suggestMenu.Items.Add(new ToolStripMenuItem(suggestion, null, OnSuggestMenuClick)
-                    {Tag = pos}); // save the position to the tag..
+                
+                MenuItems.Add(new ToolStripMenuItem(suggestion, null, OnSuggestMenuClick)
+                {
+                    Tag = pos, Name = "VPKSoft.ScintillaSpellCheck" + nameCounter++
+                }); // save the position to the tag..
+            }
+
+            // if not adding to an existing menu add the items to the previously
+            // created suggestMenu..
+            if (!ToExistingMenu)
+            {
+                foreach (var menuItem in MenuItems)
+                {
+                    suggestMenu.Items.Add(menuItem);
+                }
             }
 
             // save the previous context menu of the Scintilla control so it can be restored..
             PreviousScintillaContextMenu = scintilla.ContextMenuStrip;
 
-            // set the just created context menu as a new context menu for the Scintilla control..
-            scintilla.ContextMenuStrip = suggestMenu;
+            if (ToExistingMenu && PreviousScintillaContextMenu != null)
+            {
+                for (int i = 0; i < MenuItems.Count; i++)
+                {
+                    PreviousScintillaContextMenu.Items.Insert(i, MenuItems[i]);
+                }
+            }
+            else if (!ToExistingMenu)
+            {
+                // set the just created context menu as a new context menu for the Scintilla control..
+                scintilla.ContextMenuStrip = suggestMenu;               
+            }
 
             // display the menu immediately at the given location..
-            suggestMenu.Show(scintilla, point);
+            if (!ToExistingMenu)
+            {
+                suggestMenu.Show(scintilla, point);
+            }
 
             // return the created context menu..
             return suggestMenu;

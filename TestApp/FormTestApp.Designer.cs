@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTestApp));
             this.scintilla = new ScintillaNET.Scintilla();
             this.odAnyFile = new System.Windows.Forms.OpenFileDialog();
@@ -35,7 +36,10 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSpellCheck = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsTest = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuTest = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain.SuspendLayout();
+            this.cmsTest.SuspendLayout();
             this.SuspendLayout();
             // 
             // scintilla
@@ -44,7 +48,6 @@
             this.scintilla.Name = "scintilla";
             this.scintilla.Size = new System.Drawing.Size(776, 393);
             this.scintilla.TabIndex = 0;
-            this.scintilla.Text = "scintilla1";
             // 
             // odAnyFile
             // 
@@ -84,6 +87,19 @@
             this.mnuSpellCheck.Text = "Spell check with dictionary";
             this.mnuSpellCheck.Click += new System.EventHandler(this.MnuSpellCheck_Click);
             // 
+            // cmsTest
+            // 
+            this.cmsTest.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTest});
+            this.cmsTest.Name = "cmsTest";
+            this.cmsTest.Size = new System.Drawing.Size(96, 26);
+            // 
+            // mnuTest
+            // 
+            this.mnuTest.Name = "mnuTest";
+            this.mnuTest.Size = new System.Drawing.Size(95, 22);
+            this.mnuTest.Text = "Test";
+            // 
             // FormTestApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -97,6 +113,7 @@
             this.Text = "A test application for the VPKSoft.ScintillaSpellCheck library.";
             this.mnuMain.ResumeLayout(false);
             this.mnuMain.PerformLayout();
+            this.cmsTest.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,6 +127,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripMenuItem mnuSpellCheck;
+        private System.Windows.Forms.ContextMenuStrip cmsTest;
+        private System.Windows.Forms.ToolStripMenuItem mnuTest;
     }
 }
 
