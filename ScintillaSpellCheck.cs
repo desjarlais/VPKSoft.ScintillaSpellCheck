@@ -106,7 +106,7 @@ namespace VPKSoft.ScintillaSpellCheck
                         // clean the previous menu (dispose)..
                         CleanPreviousSuggestMenu();
 
-                        PreviousSuggestMenu = CreateSuggestionMenu(suggestions, point, (start, end));
+                        PreviousSuggestMenu = CreateSuggestionMenu(suggestions, point, (start, end), word);
                     }
                     else // don't leave the user without a menu..
                     {
@@ -177,7 +177,35 @@ namespace VPKSoft.ScintillaSpellCheck
         /// </summary>
         public bool ToExistingMenu { get; set; } = true;
 
+        /// <summary>
+        /// An internal list of currently created spell check suggestion menu items.
+        /// </summary>
         private List<ToolStripItem> MenuItems { get; set; } = new List<ToolStripItem>();
+
+        /// <summary>
+        /// A list of ignored words.
+        /// </summary>
+        public List<string> IgnoreList { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the ignore word menu item.
+        /// </summary>
+        public bool ShowIgnoreMenu { get; set; } = false;
+
+        /// <summary>
+        /// Gets or set the text used in the ignore word menu item.
+        /// </summary>
+        public string MenuIgnoreText { get; set; } = "Ignore word \"{0}\".";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the add a word to the dictionary menu item.
+        /// </summary>
+        public bool ShowAddToDictionaryMenu { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the text used in the add word to dictionary menu item.
+        /// </summary>
+        public string MenuAddToDictionaryText { get; set; } = "Add word \"{0}\" to the dictionary.";
 
         /// <summary>
         /// Creates a new suggestion menu for words.
@@ -185,8 +213,9 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <param name="suggestions">A collection of suggestions to show to the user.</param>
         /// <param name="point">The point where the menu should be shown at.</param>
         /// <param name="pos">The position of the word for suggest alternatives to.</param>
+        /// <param name="word">The word from which <paramref name="suggestions"/> where gotten from.</param>
         /// <returns>A <see cref="ContextMenuStrip"/> containing suggestions for the word.</returns>
-        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos)
+        private ContextMenuStrip CreateSuggestionMenu(List<string> suggestions, Point point, (int start, int end) pos, string word)
         {
             // clean the previous menu (dispose)..
             CleanPreviousSuggestMenu();
@@ -199,11 +228,34 @@ namespace VPKSoft.ScintillaSpellCheck
             // loop through the suggestions..
             foreach (var suggestion in suggestions)
             {
-                // ..and create ToolStripMenuItem's out of them..
-                
+                // ..and create ToolStripMenuItem's out of them..                
                 MenuItems.Add(new ToolStripMenuItem(suggestion, null, OnSuggestMenuClick)
                 {
                     Tag = pos, Name = "VPKSoft.ScintillaSpellCheck" + nameCounter++
+                }); // save the position to the tag..
+            }
+
+            // add a separator if additional menus are requested..
+            if (ShowIgnoreMenu || ShowAddToDictionaryMenu)
+            {
+                MenuItems.Add(new ToolStripSeparator());
+            }
+
+            if (ShowIgnoreMenu)
+            {
+                // Add the ignore word menu if the ShowIgnoreMenu flag is set..
+                MenuItems.Add(new ToolStripMenuItem(string.Format(MenuIgnoreText, word), null, OnSuggestMenuClick)
+                {
+                    Tag = word, Name = "VPKSoft.ScintillaSpellCheck_ignore"
+                }); // save the position to the tag..
+            }
+
+            if (ShowAddToDictionaryMenu)
+            {
+                // Add the add a word to dictionary ignore menu if the ShowAddToDictionaryMenu flag is set..
+                MenuItems.Add(new ToolStripMenuItem(string.Format(MenuAddToDictionaryText, word), null, OnSuggestMenuClick)
+                {
+                    Tag = word, Name = "VPKSoft.ScintillaSpellCheck_add"
                 }); // save the position to the tag..
             }
 
@@ -244,25 +296,61 @@ namespace VPKSoft.ScintillaSpellCheck
         }
 
         /// <summary>
+        /// A delegate for the <see cref="ScintillaSpellCheck.WordIgnoreRequested"/> and <see cref="ScintillaSpellCheck.WordAddDictionaryRequested"/> events.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="WordHandleEventArgs"/> instance containing the event data.</param>
+        public delegate void OnWordHandleRequest(object sender, WordHandleEventArgs e);
+
+        /// <summary>
+        /// An event which is fired when a user requests a word to be added to an ignore list.
+        /// </summary>
+        public event OnWordHandleRequest WordIgnoreRequested;
+
+        /// <summary>
+        /// An event which is fired when a user requests a word to be added to the dictionary.
+        /// </summary>
+        public event OnWordHandleRequest WordAddDictionaryRequested;
+
+        /// <summary>
         /// Handles the <see cref="E:SuggestMenuClick" /> event.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void OnSuggestMenuClick(object sender, EventArgs e)
-        
-        {
+        private void OnSuggestMenuClick(object sender, EventArgs e)        
+        {            
             // get the clicked menu item from the suggest a word context menu..
             var clickedItem = (ToolStripMenuItem) sender;
 
-            // get the word position that the suggestion menu replaces..
-            var wordPos = ((int start, int end)) clickedItem.Tag;
+            // a menu with a request to ignore a word was clicked..
+            if (clickedItem.Name == "VPKSoft.ScintillaSpellCheck_ignore")
+            {
+                // raise an event if subscribed..
+                WordIgnoreRequested?.Invoke(sender,
+                    new WordHandleEventArgs
+                        {Word = clickedItem.Tag.ToString(), AddToDictionary = false, AddToIgnore = true});
+            }
+            // a menu with a request to add a word to the dictionary was clicked..
+            else if (clickedItem.Name == "VPKSoft.ScintillaSpellCheck_add")
+            {
+                // raise an event if subscribed..
+                WordAddDictionaryRequested?.Invoke(sender,
+                    new WordHandleEventArgs
+                        {Word = clickedItem.Tag.ToString(), AddToDictionary = true, AddToIgnore = false});
+            }
+            // the "normal" case..
+            else 
+            {
+                // get the word position that the suggestion menu replaces..
+                var wordPos = ((int start, int end)) clickedItem.Tag;
 
-            // select the miss-spelled word..
-            scintilla.SelectionStart = wordPos.start;
-            scintilla.SelectionEnd = wordPos.end;
+                // select the miss-spelled word..
+                scintilla.SelectionStart = wordPos.start;
+                scintilla.SelectionEnd = wordPos.end;
 
-            // replace the miss-spelled word with user "input"..
-            scintilla.ReplaceSelection(clickedItem.Text);
+                // replace the miss-spelled word with user "input"..
+                scintilla.ReplaceSelection(clickedItem.Text);
+            }
 
             // clean the previous menu (dispose)..
             CleanPreviousSuggestMenu();
@@ -450,7 +538,8 @@ namespace VPKSoft.ScintillaSpellCheck
             while ((word = Next()) != default)
             {
                 // if the WeCantSpell.Hunspell disagrees with the words spelling..
-                if (!Dictionary.Check(word.word))
+                if (!Dictionary.Check(word.word) && !IgnoreList.Exists(f =>
+                        String.Equals(f, word.word, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     // ..mark it with an indicator..
                     scintilla.IndicatorFillRange(word.start, word.end - word.start);

@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScintillaIndicatorHelper.cs" />
     <Compile Include="ScintillaSpellCheck.cs" />
+    <Compile Include="WordHandleEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
