@@ -239,7 +239,7 @@ namespace VPKSoft.ScintillaSpellCheck
             // add a separator if additional menus are requested..
             if (ShowIgnoreMenu || ShowAddToDictionaryMenu)
             {
-                MenuItems.Add(new ToolStripSeparator());
+                MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter});
             }
 
             if (ShowIgnoreMenu)
