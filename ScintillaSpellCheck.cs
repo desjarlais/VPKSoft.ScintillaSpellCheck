@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ScintillaNET;
 using WeCantSpell.Hunspell;
@@ -524,6 +525,31 @@ namespace VPKSoft.ScintillaSpellCheck
         }
 
         /// <summary>
+        /// Marks miss-spelled words of the <see cref="Scintilla"/> control using compiled regular expression to match the words.
+        /// </summary>
+        public void SpellCheckScintillaFast()
+        {
+            // first re-set the search..
+            Reset();
+
+            var words = Regex.Matches(scintilla.Text, "\\b\\w+\\b", RegexOptions.Compiled);
+
+            for (int i = 0; i < words.Count; i++)
+            {
+                if (!Dictionary.Check(words[i].Value) && !IgnoreList.Exists(f =>
+                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)))
+                {
+
+                        // ..mark it with an indicator..
+                        scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
+                }
+            }
+
+            // re-set the saved indicator value to the Scintilla instance..
+            scintilla.IndicatorCurrent = ScintillaIndicatorCurrent;
+        }
+
+        /// <summary>
         /// Marks miss-spelled words of the <see cref="Scintilla"/> control.
         /// </summary>
         public void SpellCheckScintilla()
@@ -539,7 +565,7 @@ namespace VPKSoft.ScintillaSpellCheck
             {
                 // if the WeCantSpell.Hunspell disagrees with the words spelling..
                 if (!Dictionary.Check(word.word) && !IgnoreList.Exists(f =>
-                        String.Equals(f, word.word, StringComparison.InvariantCultureIgnoreCase)))
+                        string.Equals(f, word.word, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     // ..mark it with an indicator..
                     scintilla.IndicatorFillRange(word.start, word.end - word.start);

@@ -49,6 +49,7 @@ namespace TestApp
         private void MnuSpellCheck_Click(object sender, EventArgs e)
         {
             //scintilla.ContextMenuStrip = cmsTest; // comment this in case not needed for testing..
+            DateTime dt = DateTime.Now;
 
             ScintillaSpellCheck spellCheck = new ScintillaSpellCheck(scintilla,
                 @"C:\Files\GitHub\dictionaries\en\en_US.dic", @"C:\Files\GitHub\dictionaries\en\en_US.aff");
@@ -57,7 +58,8 @@ namespace TestApp
             spellCheck.ShowIgnoreMenu = true;
             spellCheck.ShowAddToDictionaryMenu = true;
 
-            spellCheck.SpellCheckScintilla();
+            spellCheck.SpellCheckScintillaFast();
+            MessageBox.Show((DateTime.Now - dt).TotalMilliseconds.ToString());
         }
     }
 }
