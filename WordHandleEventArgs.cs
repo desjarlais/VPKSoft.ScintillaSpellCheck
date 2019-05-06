@@ -29,7 +29,7 @@ using System;
 namespace VPKSoft.ScintillaSpellCheck
 {
     /// <summary>
-    /// Event arguments for the ignore word and add a word to dictionary events.
+    /// Event arguments for the ignore word, add a word to dictionary and replace word events.
     /// Implements the <see cref="System.EventArgs" />
     /// </summary>
     /// <seealso cref="System.EventArgs" />
@@ -38,8 +38,17 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <summary>
         /// Gets or sets the word which is either requested to be ignored or to be requested to be added to the dictionary.
         /// </summary>
-        /// <value>The word.</value>
         public string Word { get; set; }
+
+        /// <summary>
+        /// Gets or set the word the user chose to replace with a <seealso cref="WordTo"/>
+        /// </summary>
+        public string WordFrom { get; set; }
+
+        /// <summary>
+        /// Gets or set a word the user is replaced the misspelled ford to.
+        /// </summary>
+        public string WordTo { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to add the word to the ignore list.
@@ -50,5 +59,10 @@ namespace VPKSoft.ScintillaSpellCheck
         /// Gets or sets a value indicating whether to add the word to the dictionary.
         /// </summary>
         public bool AddToDictionary { get; set; }
+
+        /// <summary>
+        /// Gets or set a value indicating whether the event in question is a user initiated word correct.
+        /// </summary>
+        public bool IsWordReplace { get; set; }
     }
 }

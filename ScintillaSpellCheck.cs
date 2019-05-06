@@ -314,6 +314,11 @@ namespace VPKSoft.ScintillaSpellCheck
         public event OnWordHandleRequest WordAddDictionaryRequested;
 
         /// <summary>
+        /// An event which is fired when a user corrects a word using the context menu.
+        /// </summary>
+        public event OnWordHandleRequest UserWordReplace;
+
+        /// <summary>
         /// Handles the <see cref="E:SuggestMenuClick" /> event.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
@@ -329,7 +334,10 @@ namespace VPKSoft.ScintillaSpellCheck
                 // raise an event if subscribed..
                 WordIgnoreRequested?.Invoke(sender,
                     new WordHandleEventArgs
-                        {Word = clickedItem.Tag.ToString(), AddToDictionary = false, AddToIgnore = true});
+                    {
+                        Word = clickedItem.Tag.ToString(), AddToDictionary = false, AddToIgnore = true,
+                        IsWordReplace = false
+                    });
             }
             // a menu with a request to add a word to the dictionary was clicked..
             else if (clickedItem.Name == "VPKSoft.ScintillaSpellCheck_add")
@@ -337,7 +345,10 @@ namespace VPKSoft.ScintillaSpellCheck
                 // raise an event if subscribed..
                 WordAddDictionaryRequested?.Invoke(sender,
                     new WordHandleEventArgs
-                        {Word = clickedItem.Tag.ToString(), AddToDictionary = true, AddToIgnore = false});
+                    {
+                        Word = clickedItem.Tag.ToString(), AddToDictionary = true, AddToIgnore = false,
+                        IsWordReplace = false
+                    });
             }
             // the "normal" case..
             else 
@@ -348,6 +359,17 @@ namespace VPKSoft.ScintillaSpellCheck
                 // select the miss-spelled word..
                 scintilla.SelectionStart = wordPos.start;
                 scintilla.SelectionEnd = wordPos.end;
+
+                // get the word for the event..
+                var wordFrom = scintilla.Text.Substring(wordPos.start, wordPos.end - wordPos.start);
+
+                // raise an event if subscribed..
+                UserWordReplace?.Invoke(sender,
+                    new WordHandleEventArgs
+                    {
+                        AddToDictionary = false, AddToIgnore = false, IsWordReplace = true, WordFrom = wordFrom,
+                        WordTo = clickedItem.Text,
+                    });
 
                 // replace the miss-spelled word with user "input"..
                 scintilla.ReplaceSelection(clickedItem.Text);
