@@ -525,6 +525,11 @@ namespace VPKSoft.ScintillaSpellCheck
         }
 
         /// <summary>
+        /// Gets or sets the word boundary regex used with the <see cref="SpellCheckScintillaFast"/> method.
+        /// </summary>
+        public Regex WordBoundaryRegex { get; set; } = new Regex( "\\b\\w+\\b", RegexOptions.Compiled);
+
+        /// <summary>
         /// Marks miss-spelled words of the <see cref="Scintilla"/> control using compiled regular expression to match the words.
         /// </summary>
         public void SpellCheckScintillaFast()
@@ -532,7 +537,7 @@ namespace VPKSoft.ScintillaSpellCheck
             // first re-set the search..
             Reset();
 
-            var words = Regex.Matches(scintilla.Text, "\\b\\w+\\b", RegexOptions.Compiled);
+            var words = WordBoundaryRegex.Matches(scintilla.Text);
 
             for (int i = 0; i < words.Count; i++)
             {
