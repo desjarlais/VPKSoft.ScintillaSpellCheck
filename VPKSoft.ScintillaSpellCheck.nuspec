@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added event UserWordReplace.</releaseNotes>
+    <releaseNotes>Added an event which is fired after the user has corrected the miss-spelling. Added self-explanatory property AddBottomSeparator. Added property to show a disabled title menu item before the spelling fix suggestions.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>

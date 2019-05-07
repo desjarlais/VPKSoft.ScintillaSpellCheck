@@ -54,6 +54,7 @@ namespace TestApp
             ScintillaSpellCheck spellCheck = new ScintillaSpellCheck(scintilla,
                 @"C:\Files\GitHub\dictionaries\en\en_US.dic", @"C:\Files\GitHub\dictionaries\en\en_US.aff");
 
+            spellCheck.ShowDictionaryTopMenuItem = true;
             spellCheck.ToExistingMenu = false;
             spellCheck.ShowIgnoreMenu = true;
             spellCheck.ShowAddToDictionaryMenu = true;

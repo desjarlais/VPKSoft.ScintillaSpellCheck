@@ -209,6 +209,22 @@ namespace VPKSoft.ScintillaSpellCheck
         public string MenuAddToDictionaryText { get; set; } = "Add word \"{0}\" to the dictionary.";
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show a disabled menu item on top of the other dictionary menu item.
+        /// </summary>
+        public bool ShowDictionaryTopMenuItem { get; set; } = false;
+
+        /// <summary>
+        /// Gets or set a text used in the spell checking "header" menu if one is enabled.
+        /// </summary>
+        public string MenuDictionaryTopItemText { get; set; } = "Spell checking";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to add a bottom separator menu item to the dictionary.
+        /// </summary>
+        public bool AddBottomSeparator { get; set; } = true;
+
+
+        /// <summary>
         /// Creates a new suggestion menu for words.
         /// </summary>
         /// <param name="suggestions">A collection of suggestions to show to the user.</param>
@@ -220,11 +236,30 @@ namespace VPKSoft.ScintillaSpellCheck
         {
             // clean the previous menu (dispose)..
             CleanPreviousSuggestMenu();
-            
+
             // create a new ContextMenuStrip class instance..
             ContextMenuStrip suggestMenu = new ContextMenuStrip();
 
+            // if there are no correction suggestions then just return with an empty menu..
+            if (suggestions.Count == 0)
+            {
+                return suggestMenu;
+            }
+
             int nameCounter = 0;
+
+            // if a title menu is wanted to be shown, then create a one..
+            if (ShowDictionaryTopMenuItem)
+            {
+                MenuItems.Add(new ToolStripMenuItem(string.Format(MenuDictionaryTopItemText, word))
+                {
+                    Name = "VPKSoft.ScintillaSpellCheck_title",
+                    Enabled = false,
+                });
+
+                // add a separator with the 
+                MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter++});
+            }
 
             // loop through the suggestions..
             foreach (var suggestion in suggestions)
@@ -239,7 +274,7 @@ namespace VPKSoft.ScintillaSpellCheck
             // add a separator if additional menus are requested..
             if (ShowIgnoreMenu || ShowAddToDictionaryMenu)
             {
-                MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter});
+                MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter++});
             }
 
             if (ShowIgnoreMenu)
@@ -258,6 +293,13 @@ namespace VPKSoft.ScintillaSpellCheck
                 {
                     Tag = word, Name = "VPKSoft.ScintillaSpellCheck_add"
                 }); // save the position to the tag..
+            }
+
+            // if a bottom separator menu was requested to be added..
+            if (AddBottomSeparator)
+            {
+                // ..then just add it..
+                MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter});
             }
 
             // if not adding to an existing menu add the items to the previously
@@ -319,6 +361,12 @@ namespace VPKSoft.ScintillaSpellCheck
         public event OnWordHandleRequest UserWordReplace;
 
         /// <summary>
+        /// An event which is fired when a user has corrected a word using the context menu (the <see cref="Scintilla"/> text changed event has fired).
+        /// </summary>
+        public event OnWordHandleRequest AfterUserWordReplace;
+
+
+        /// <summary>
         /// Handles the <see cref="E:SuggestMenuClick" /> event.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
@@ -373,6 +421,14 @@ namespace VPKSoft.ScintillaSpellCheck
 
                 // replace the miss-spelled word with user "input"..
                 scintilla.ReplaceSelection(clickedItem.Text);
+
+                // raise an event if subscribed..
+                AfterUserWordReplace?.Invoke(sender,
+                    new WordHandleEventArgs
+                    {
+                        AddToDictionary = false, AddToIgnore = false, IsWordReplace = true, WordFrom = wordFrom,
+                        WordTo = clickedItem.Text,
+                    });
             }
 
             // clean the previous menu (dispose)..
