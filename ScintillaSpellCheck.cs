@@ -616,7 +616,7 @@ namespace VPKSoft.ScintillaSpellCheck
             Reset();
 
             // clear the previous spell check markings..
-            ClearSpellCheck();
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
 
             var words = WordBoundaryRegex.Matches(scintilla.Text);
 
@@ -643,7 +643,8 @@ namespace VPKSoft.ScintillaSpellCheck
             Reset();
 
             // clear the previous spell check markings..
-            ClearSpellCheck();
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
+
 
             // create a variable for the next word..
             (int start, int end, int length, string word) word;
