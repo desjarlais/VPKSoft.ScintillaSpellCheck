@@ -615,6 +615,9 @@ namespace VPKSoft.ScintillaSpellCheck
             // first re-set the search..
             Reset();
 
+            // clear the previous spell check markings..
+            ClearSpellCheck();
+
             var words = WordBoundaryRegex.Matches(scintilla.Text);
 
             for (int i = 0; i < words.Count; i++)
@@ -622,9 +625,8 @@ namespace VPKSoft.ScintillaSpellCheck
                 if (!Dictionary.Check(words[i].Value) && !IgnoreList.Exists(f =>
                         string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)))
                 {
-
-                        // ..mark it with an indicator..
-                        scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
+                    // ..mark it with an indicator..
+                    scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
                 }
             }
 
@@ -639,6 +641,9 @@ namespace VPKSoft.ScintillaSpellCheck
         {
             // first re-set the search..
             Reset();
+
+            // clear the previous spell check markings..
+            ClearSpellCheck();
 
             // create a variable for the next word..
             (int start, int end, int length, string word) word;
