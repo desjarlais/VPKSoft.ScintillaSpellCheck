@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed "critical" bug with boolean algebra disabling the spell checking all the way.</releaseNotes>
+    <releaseNotes>Added ScintillaSpellCheck instance to the WordHandleEventArgs class.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>

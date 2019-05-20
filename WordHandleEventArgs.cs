@@ -64,5 +64,10 @@ namespace VPKSoft.ScintillaSpellCheck
         /// Gets or set a value indicating whether the event in question is a user initiated word correct.
         /// </summary>
         public bool IsWordReplace { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="ScintillaSpellCheck"/> instance which raised the event.
+        /// </summary>
+        public ScintillaSpellCheck ScintillaSpellCheck { get; internal set; }
     }
 }

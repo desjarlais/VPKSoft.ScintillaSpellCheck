@@ -427,7 +427,7 @@ namespace VPKSoft.ScintillaSpellCheck
                     new WordHandleEventArgs
                     {
                         Word = clickedItem.Tag.ToString(), AddToDictionary = false, AddToIgnore = true,
-                        IsWordReplace = false
+                        IsWordReplace = false, ScintillaSpellCheck = this,
                     });
             }
             // a menu with a request to add a word to the dictionary was clicked..
@@ -438,7 +438,7 @@ namespace VPKSoft.ScintillaSpellCheck
                     new WordHandleEventArgs
                     {
                         Word = clickedItem.Tag.ToString(), AddToDictionary = true, AddToIgnore = false,
-                        IsWordReplace = false
+                        IsWordReplace = false, ScintillaSpellCheck = this,
                     });
             }
             // the "normal" case..
@@ -459,7 +459,7 @@ namespace VPKSoft.ScintillaSpellCheck
                     new WordHandleEventArgs
                     {
                         AddToDictionary = false, AddToIgnore = false, IsWordReplace = true, WordFrom = wordFrom,
-                        WordTo = clickedItem.Text,
+                        WordTo = clickedItem.Text, ScintillaSpellCheck = this,
                     });
 
                 // replace the miss-spelled word with user "input"..
@@ -470,7 +470,7 @@ namespace VPKSoft.ScintillaSpellCheck
                     new WordHandleEventArgs
                     {
                         AddToDictionary = false, AddToIgnore = false, IsWordReplace = true, WordFrom = wordFrom,
-                        WordTo = clickedItem.Text,
+                        WordTo = clickedItem.Text, ScintillaSpellCheck = this,
                     });
             }
 
