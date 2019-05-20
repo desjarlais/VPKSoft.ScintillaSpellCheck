@@ -44,7 +44,7 @@ namespace VPKSoft.ScintillaSpellCheck
     public class ScintillaSpellCheck: IDisposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Scintilla"/> class.
+        /// Initializes a new instance of the <see cref="ScintillaSpellCheck"/> class.
         /// </summary>
         /// <param name="scintilla">The scintilla to spell check for.</param>
         /// <param name="dictionaryFile">The dictionary file.</param>
@@ -62,6 +62,34 @@ namespace VPKSoft.ScintillaSpellCheck
             // set the default indicator..
             SetIndicator();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScintillaSpellCheck"/> class.
+        /// </summary>
+        /// <param name="scintilla">The scintilla to spell check for.</param>
+        /// <param name="dictionaryFile">The dictionary file.</param>
+        /// <param name="affixFile">The affix file.</param>
+        /// <param name="userDictionaryFile">The user's dictionary file.</param>
+        /// <param name="userWordIgnoreListFile">The user's ignore word file.</param>
+        public ScintillaSpellCheck(Scintilla scintilla, string dictionaryFile, string affixFile,
+            string userDictionaryFile, string userWordIgnoreListFile)
+        {
+            PreviousScintillaContextMenu = scintilla.ContextMenuStrip;
+
+            this.scintilla = scintilla;
+
+            this.scintilla.MouseDown += Scintilla_MouseDown;
+
+            LoadDictionary(dictionaryFile, affixFile);
+
+            LoadUserDictionaryFromFile(userDictionaryFile);
+
+            LoadUserWordIgnoreListFromFile(userWordIgnoreListFile);
+
+            // set the default indicator..
+            SetIndicator();
+        }
+
 
         /// <summary>
         /// Handles the MouseDown event of the Scintilla control.
@@ -100,6 +128,21 @@ namespace VPKSoft.ScintillaSpellCheck
 
                     // get the dictionary suggestions..
                     var suggestions = Dictionary.Suggest(word).ToList();
+
+                    if (UserDictionary != null)
+                    {
+                        var userSuggestions = UserDictionary.Suggest(word).ToList();
+                        for (int i = 0; i < userSuggestions.Count; i++)
+                        {
+                            if (!suggestions.Exists(f => String.Compare(f, userSuggestions[i], StringComparison.Ordinal) == 0))
+                            {
+                                suggestions.Add(userSuggestions[i]);
+                            }
+                        }
+
+                        // sort the list as there are possible two word sets in the suggestion list..
+                        suggestions.Sort((x, y) => string.Compare(x, y, StringComparison.InvariantCultureIgnoreCase));
+                    }
 
                     // only create a menu if there are any suggestions..
                     if (suggestions.Count > 0)
@@ -441,6 +484,16 @@ namespace VPKSoft.ScintillaSpellCheck
         private WordList Dictionary { get; set; }
 
         /// <summary>
+        /// Gets or sets the user dictionary that the <see cref="WeCantSpell.Hunspell"/> class library has created.
+        /// </summary>
+        private WordList UserDictionary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list containing the user dictionary words.
+        /// </summary>
+        private List<string> UserDictionaryWords { get; set; } = new List<string>();
+
+        /// <summary>
         /// Loads the dictionary in to the <see cref="Dictionary"/> property.
         /// </summary>
         /// <param name="dictionaryFile">The dictionary file (*.dic).</param>
@@ -456,6 +509,124 @@ namespace VPKSoft.ScintillaSpellCheck
                     Dictionary = WordList.CreateFromStreams(dictionaryStream, affixStream);
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates a user dictionary.
+        /// </summary>
+        /// <param name="wordStrings">A list of words to use within a user dictionary.</param>
+        public void LoadUserDictionary(params string[] wordStrings)
+        {
+            // create the user dictionary..
+            UserDictionary = WordList.CreateFromWords(wordStrings);
+
+            // save the words to the list, so the user dictionary can be
+            // reconstructed..
+            UserDictionaryWords = new List<string>(wordStrings);
+        }
+
+        /// <summary>
+        /// Gets a word array from a file.
+        /// </summary>
+        /// <param name="fileName">The file name to get the array from.</param>
+        /// <returns></returns>
+        private string[] CreateWordListFromFile(string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                // return an empty array for a non-existent file..
+                return new string[0];
+            }
+
+            // read all the lines from the given file..
+            var lines = File.ReadAllLines(fileName);
+
+            // join the lines with separator character of ' '..
+            string wordString = string.Join(" ", lines);
+
+            return wordString.Split(' ');
+        }
+
+        /// <summary>
+        /// Creates a user ignore word list from file. The file is divided with lines and the words are extracted via string.Split(' ') method.
+        /// </summary>
+        /// <param name="fileName">The file name to load the user word ignore list from.</param>
+        public void LoadUserWordIgnoreListFromFile(string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                return;
+            }
+
+            // get the ignored words..
+            IgnoreList = new List<string>(CreateWordListFromFile(fileName));
+        }
+
+        /// <summary>
+        /// Saves or appends to the ignore word list to a given file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to save or to append to.</param>
+        public void SaveUserWordIgnoreListToFile(string fileName)
+        {
+            List<string> ignoreList = new List<string>(CreateWordListFromFile(fileName));
+
+            ignoreList.AddRange(IgnoreList);
+
+            ignoreList = ignoreList.Distinct().ToList();
+
+            File.WriteAllLines(fileName, ignoreList);
+        }
+
+        /// <summary>
+        /// Saves or appends to the user dictionary to a given file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to save or to append to.</param>
+        public void SaveUserDictionaryToFile(string fileName)
+        {
+            List<string> userDictionaryList = new List<string>(CreateWordListFromFile(fileName));
+
+            userDictionaryList.AddRange(UserDictionaryWords);
+
+            userDictionaryList = userDictionaryList.Distinct().ToList();
+
+            File.WriteAllLines(fileName, userDictionaryList);
+        }
+
+        /// <summary>
+        /// Creates a user dictionary from file. The file is divided with lines and the words are extracted via string.Split(' ') method.
+        /// </summary>
+        /// <param name="fileName">The file name to load the user dictionary from.</param>
+        public void LoadUserDictionaryFromFile(string fileName)
+        {
+            // create the user dictionary..
+            LoadUserDictionary(CreateWordListFromFile(fileName));
+        }
+
+        /// <summary>
+        /// Add a word to the user dictionary.
+        /// </summary>
+        /// <param name="word">A word to add to the user dictionary.</param>
+        /// <returns>True if the word was successfully added to the user dictionary; otherwise false.</returns>
+        public bool AddToUserDictionary(string word)
+        {
+            if (UserDictionaryWords.Exists(f =>
+                string.Compare(f, word, StringComparison.Ordinal) == 0))
+            {
+                return false;
+            }
+
+            UserDictionaryWords.Add(word);
+            LoadUserDictionary(UserDictionaryWords.ToArray());
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the words in the user dictionary.
+        /// </summary>
+        /// <returns>The words listed in the user dictionary.</returns>
+        public List<string> GetUserDictionaryWords()
+        {
+            return UserDictionaryWords;
         }
 
         /// <summary>
@@ -622,8 +793,11 @@ namespace VPKSoft.ScintillaSpellCheck
 
             for (int i = 0; i < words.Count; i++)
             {
+                // validate the possible user dictionary..
+                bool userDictionaryOk = UserDictionary?.Check(words[i].Value) ?? true;
+
                 if (!Dictionary.Check(words[i].Value) && !IgnoreList.Exists(f =>
-                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)))
+                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)) && userDictionaryOk)
                 {
                     // ..mark it with an indicator..
                     scintilla.IndicatorFillRange(words[i].Index, words[i].Length);

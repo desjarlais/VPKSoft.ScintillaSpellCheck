@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Quick fix for the previous: Added a mark clearing for valid words.</releaseNotes>
+    <releaseNotes>Added helper methods to use a user specified dictionary and a user specified word ignore list.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>
