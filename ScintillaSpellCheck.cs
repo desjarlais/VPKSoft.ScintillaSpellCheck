@@ -821,10 +821,11 @@ namespace VPKSoft.ScintillaSpellCheck
             for (int i = 0; i < words.Count; i++)
             {
                 // validate the possible user dictionary..
-                bool userDictionaryOk = UserDictionary?.Check(words[i].Value) ?? true;
+                bool userDictionaryOk = UserDictionary?.Check(words[i].Value) ?? false;
 
                 if (!Dictionary.Check(words[i].Value) && !IgnoreList.Exists(f =>
-                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)) && userDictionaryOk)
+                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)) &&
+                    !userDictionaryOk)
                 {
                     // ..mark it with an indicator..
                     scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
