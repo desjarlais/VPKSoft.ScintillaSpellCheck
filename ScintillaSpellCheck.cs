@@ -229,7 +229,7 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <summary>
         /// A list of ignored words.
         /// </summary>
-        public List<string> IgnoreList { get; set; } = new List<string>();
+        private static List<string> IgnoreList { get; set; } = new List<string>();
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the ignore word menu item.
@@ -491,7 +491,7 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <summary>
         /// Gets or sets the list containing the user dictionary words.
         /// </summary>
-        private List<string> UserDictionaryWords { get; set; } = new List<string>();
+        private static List<string> UserDictionaryWords { get; set; } = new List<string>();
 
         /// <summary>
         /// Loads the dictionary in to the <see cref="Dictionary"/> property.
@@ -621,12 +621,39 @@ namespace VPKSoft.ScintillaSpellCheck
         }
 
         /// <summary>
+        /// Add a word to the user ignore word list.
+        /// </summary>
+        /// <param name="word">A word to add to the user ignore word list.</param>
+        /// <returns>True if the word was successfully added to the user ignore word list; otherwise false.</returns>
+        public bool AddToUserIgnoreList(string word)
+        {
+            if (IgnoreList.Exists(f =>
+                string.Compare(f, word, StringComparison.Ordinal) == 0))
+            {
+                return false;
+            }
+
+            IgnoreList.Add(word);
+            
+            return true;
+        }
+
+        /// <summary>
         /// Gets the words in the user dictionary.
         /// </summary>
         /// <returns>The words listed in the user dictionary.</returns>
         public List<string> GetUserDictionaryWords()
         {
             return UserDictionaryWords;
+        }
+
+        /// <summary>
+        /// Gets the words in the user ignore word list.
+        /// </summary>
+        /// <returns>The words listed in the user ignore word list.</returns>
+        public List<string> GetUserIgnoreWords()
+        {
+            return IgnoreList;
         }
 
         /// <summary>
