@@ -145,7 +145,9 @@ namespace VPKSoft.ScintillaSpellCheck
                     }
 
                     // only create a menu if there are any suggestions..
-                    if (suggestions.Count > 0)
+                    if (suggestions.Count > 0 || 
+                        ShowAddToDictionaryMenu || 
+                        ShowIgnoreMenu)
                     {
                         // clean the previous menu (dispose)..
                         CleanPreviousSuggestMenu();
@@ -284,7 +286,9 @@ namespace VPKSoft.ScintillaSpellCheck
             ContextMenuStrip suggestMenu = new ContextMenuStrip();
 
             // if there are no correction suggestions then just return with an empty menu..
-            if (suggestions.Count == 0)
+            if (suggestions.Count == 0 && 
+                !ShowAddToDictionaryMenu && 
+                !ShowIgnoreMenu)
             {
                 return suggestMenu;
             }
@@ -315,7 +319,7 @@ namespace VPKSoft.ScintillaSpellCheck
             }
 
             // add a separator if additional menus are requested..
-            if (ShowIgnoreMenu || ShowAddToDictionaryMenu)
+            if ((ShowIgnoreMenu || ShowAddToDictionaryMenu) && suggestions.Count > 0)
             {
                 MenuItems.Add(new ToolStripSeparator {Name = "VPKSoft.ScintillaSpellCheck" + nameCounter++});
             }
