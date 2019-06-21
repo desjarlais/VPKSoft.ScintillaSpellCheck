@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>The add to dictionary and/or add to add to ignore list menu is enabled even if there is nothing to suggest.</releaseNotes>
+    <releaseNotes>Added exception handling to the context menu. Added exception reporting via an user defined action</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>

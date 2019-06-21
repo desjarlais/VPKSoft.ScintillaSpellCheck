@@ -90,6 +90,10 @@ namespace VPKSoft.ScintillaSpellCheck
             SetIndicator();
         }
 
+        /// <summary>
+        /// An user defined action to report an exception from the library.
+        /// </summary>
+        public static Action<Exception> ExceptionOccurredAction { get; set; }
 
         /// <summary>
         /// Handles the MouseDown event of the Scintilla control.
@@ -126,22 +130,39 @@ namespace VPKSoft.ScintillaSpellCheck
                     // get the word at the mouse click location..
                     string word = scintilla.Text.Substring(start, end - start);
 
+                    // initialize the word suggestion list..
+                    List<string> suggestions = new List<string>();
+
                     // get the dictionary suggestions..
-                    var suggestions = Dictionary.Suggest(word).ToList();
+                    try
+                    {
+                        suggestions = Dictionary.Suggest(word).ToList();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionOccurredAction?.Invoke(ex);
+                    }
 
                     if (UserDictionary != null)
                     {
-                        var userSuggestions = UserDictionary.Suggest(word).ToList();
-                        for (int i = 0; i < userSuggestions.Count; i++)
+                        try
                         {
-                            if (!suggestions.Exists(f => String.Compare(f, userSuggestions[i], StringComparison.Ordinal) == 0))
+                            var userSuggestions = UserDictionary.Suggest(word).ToList();
+                            for (int i = 0; i < userSuggestions.Count; i++)
                             {
-                                suggestions.Add(userSuggestions[i]);
+                                if (!suggestions.Exists(f => String.Compare(f, userSuggestions[i], StringComparison.Ordinal) == 0))
+                                {
+                                    suggestions.Add(userSuggestions[i]);
+                                }
                             }
-                        }
 
-                        // sort the list as there are possible two word sets in the suggestion list..
-                        suggestions.Sort((x, y) => string.Compare(x, y, StringComparison.InvariantCultureIgnoreCase));
+                            // sort the list as there are possible two word sets in the suggestion list..
+                            suggestions.Sort((x, y) => string.Compare(x, y, StringComparison.InvariantCultureIgnoreCase));
+                        }
+                        catch (Exception ex)
+                        {
+                            ExceptionOccurredAction?.Invoke(ex);
+                        }
                     }
 
                     // only create a menu if there are any suggestions..
