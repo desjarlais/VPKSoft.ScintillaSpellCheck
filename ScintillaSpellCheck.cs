@@ -843,17 +843,67 @@ namespace VPKSoft.ScintillaSpellCheck
 
             var words = WordBoundaryRegex.Matches(scintilla.Text);
 
+            // initialize a list of failed words to speed up the spell checking..
+            List<string> failedWords = new List<string>();
+
+            // initialize a list of passed words to speed up the spell checking..
+            List<string> wordOkList = new List<string>();
+
+
             for (int i = 0; i < words.Count; i++)
             {
-                // validate the possible user dictionary..
-                bool userDictionaryOk = UserDictionary?.Check(words[i].Value) ?? false;
+                if (wordOkList.Contains(words[i].Value) /* .Exists(f => f.Equals(words[i].Value, StringComparison.InvariantCultureIgnoreCase))*/)
+                {
+                    // already passed the check..
+                    continue;
+                }
 
-                if (!Dictionary.Check(words[i].Value) && !IgnoreList.Exists(f =>
-                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)) &&
-                    !userDictionaryOk)
+                // check if the word is already in the list of failed words..
+                bool inFailedWordList = failedWords.Contains(words[i].Value); // .Exists(f => f.Equals(words[i].Value, StringComparison.InvariantCultureIgnoreCase));
+
+                if (inFailedWordList)
                 {
                     // ..mark it with an indicator..
                     scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
+                    continue;
+                }
+
+                // check the ignore list..
+                if (IgnoreList.Exists(f =>
+                        string.Equals(f, words[i].Value, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    // flag the word as ok to prevent re-checking the validity..
+                    wordOkList.Add(words[i].Value);
+
+                    // the word is valid via user dictionary or user ignore list..
+                    continue;
+                }
+
+                // validate the possible user dictionary..
+                bool userDictionaryOk = UserDictionary?.Check(words[i].Value) ?? false;
+
+                if (userDictionaryOk)
+                {
+                    // flag the word as ok to prevent re-checking the validity..
+                    wordOkList.Add(words[i].Value);
+
+                    // the word is valid via user dictionary or user ignore list..
+                    continue;
+                }
+
+                // validate the word with the loaded dictionary..
+                if (!Dictionary.Check(words[i].Value))
+                {
+                    // flag the word as invalid to prevent re-checking the validity..
+                    failedWords.Add(words[i].Value);
+
+                    // ..mark it with an indicator..
+                    scintilla.IndicatorFillRange(words[i].Index, words[i].Length);
+                }
+                else
+                {
+                    // flag the word as ok to prevent re-checking the validity..
+                    wordOkList.Add(words[i].Value);
                 }
             }
 
