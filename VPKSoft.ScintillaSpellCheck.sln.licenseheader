@@ -4,7 +4,7 @@ extensions: .cs .cpp .h
 /*
 MIT License
 
-Copyright(c) 2019 Petteri Kautonen
+Copyright(c) %CurrentYear% Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ extensions:  .xml .config .xsd
 extensions: .bat .cmd
 :: MIT License
 :: 
-:: Copyright(c) 2019 Petteri Kautonen
+:: Copyright(c) %CurrentYear% Petteri Kautonen
 :: 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ extensions: .bat .cmd
 extensions: .nsi .nsh
 # MIT License
 # 
-# Copyright(c) 2019 Petteri Kautonen
+# Copyright(c) %CurrentYear% Petteri Kautonen
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

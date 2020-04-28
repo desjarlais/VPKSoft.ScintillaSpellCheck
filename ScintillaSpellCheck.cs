@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2019 Petteri Kautonen
+Copyright(c) 2020 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ScintillaNET;
+using VPKSoft.SpellCheck.ExternalDictionarySource;
 using WeCantSpell.Hunspell;
 
 namespace VPKSoft.ScintillaSpellCheck
@@ -136,7 +137,7 @@ namespace VPKSoft.ScintillaSpellCheck
                     // get the dictionary suggestions..
                     try
                     {
-                        suggestions = Dictionary.Suggest(word).ToList();
+                        suggestions = DictionarySuggest(word).ToList();
                     }
                     catch (Exception ex)
                     {
@@ -507,6 +508,31 @@ namespace VPKSoft.ScintillaSpellCheck
         /// Gets or sets the dictionary that the <see cref="WeCantSpell.Hunspell"/> class library has created.
         /// </summary>
         private WordList Dictionary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the optional <see cref="IExternalDictionarySource"/> external dictionary interface to replace the Hunspell dictionary.
+        /// </summary>
+        public static IExternalDictionarySource ExternalDictionary { get; set; }
+
+        /// <summary>
+        /// Gets word suggestions from either the <see cref="ExternalDictionary"/> or the given Hunspell dictionary set via the <see cref="LoadDictionary"/> method.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <returns>A IEnumerable&lt;System.String&gt; containing the suggestions.</returns>
+        private IEnumerable<string> DictionarySuggest(string word)
+        {
+            return Dictionary == null ? ExternalDictionary?.Suggest(word) : Dictionary.Suggest(word);
+        }
+
+        /// <summary>
+        /// Checks if the word is spelled correctly using either the <see cref="ExternalDictionary"/> or the given Hunspell dictionary set via the <see cref="LoadDictionary"/> method.
+        /// </summary>
+        /// <param name="word">The word to check for.</param>
+        /// <returns><c>true</c> if the word is spelled correctly, <c>false</c> otherwise.</returns>
+        private bool DictionaryCheck(string word)
+        {
+            return (Dictionary?.Check(word) ?? ExternalDictionary?.Check(word)) == true;
+        }
 
         /// <summary>
         /// Gets or sets the user dictionary that the <see cref="WeCantSpell.Hunspell"/> class library has created.
@@ -892,7 +918,7 @@ namespace VPKSoft.ScintillaSpellCheck
                 }
 
                 // validate the word with the loaded dictionary..
-                if (!Dictionary.Check(words[i].Value))
+                if (!DictionaryCheck(words[i].Value))
                 {
                     // flag the word as invalid to prevent re-checking the validity..
                     failedWords.Add(words[i].Value);
@@ -930,7 +956,7 @@ namespace VPKSoft.ScintillaSpellCheck
             while ((word = Next()) != default)
             {
                 // if the WeCantSpell.Hunspell disagrees with the words spelling..
-                if (!Dictionary.Check(word.word) && !IgnoreList.Exists(f =>
+                if (!DictionaryCheck(word.word) && !IgnoreList.Exists(f =>
                         string.Equals(f, word.word, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     // ..mark it with an indicator..
