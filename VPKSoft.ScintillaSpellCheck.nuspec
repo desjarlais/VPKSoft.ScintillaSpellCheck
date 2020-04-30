@@ -9,8 +9,8 @@
     <projectUrl>https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added dependency to VPKSoft.SpellCheck.ExternalDictionarySource.</releaseNotes>
-    <copyright>Copyright © VPKSoft 2019</copyright>
+    <releaseNotes>Made the private Dictionary property to public. Added constructor without the Hunspell initialization.</releaseNotes>
+    <copyright>Copyright © VPKSoft 2020.</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>
     <icon>vpksoft_logo.png</icon>

@@ -68,6 +68,22 @@ namespace VPKSoft.ScintillaSpellCheck
         /// Initializes a new instance of the <see cref="ScintillaSpellCheck"/> class.
         /// </summary>
         /// <param name="scintilla">The scintilla to spell check for.</param>
+        public ScintillaSpellCheck(Scintilla scintilla)
+        {
+            PreviousScintillaContextMenu = scintilla.ContextMenuStrip;
+
+            this.scintilla = scintilla;
+
+            this.scintilla.MouseDown += Scintilla_MouseDown;
+
+            // set the default indicator..
+            SetIndicator();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScintillaSpellCheck"/> class.
+        /// </summary>
+        /// <param name="scintilla">The scintilla to spell check for.</param>
         /// <param name="dictionaryFile">The dictionary file.</param>
         /// <param name="affixFile">The affix file.</param>
         /// <param name="userDictionaryFile">The user's dictionary file.</param>
@@ -507,7 +523,7 @@ namespace VPKSoft.ScintillaSpellCheck
         /// <summary>
         /// Gets or sets the dictionary that the <see cref="WeCantSpell.Hunspell"/> class library has created.
         /// </summary>
-        private WordList Dictionary { get; set; }
+        public WordList Dictionary { get; set; }
 
         /// <summary>
         /// Gets or sets the optional <see cref="IExternalDictionarySource"/> external dictionary interface to replace the Hunspell dictionary.
