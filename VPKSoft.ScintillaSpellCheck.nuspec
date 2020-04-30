@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Made the private Dictionary property to public. Added constructor without the Hunspell initialization.</releaseNotes>
+    <releaseNotes>Updated NuGet dependencies.</releaseNotes>
     <copyright>Copyright © VPKSoft 2020.</copyright>
     <tags>hunspell spellcheck spell-check scintilla dotnet scintillanet</tags>
     <license type="expression">MIT</license>
