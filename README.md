@@ -21,4 +21,4 @@ The SUO stands for [unofficial.ScintillaNET](https://www.nuget.org/packages/unof
 * [![VPKSoft](https://circleci.com/gh/VPKSoft/VPKSoft.ScintillaSpellCheck.svg?style=shield)](https://app.circleci.com/pipelines/github/VPKSoft/VPKSoft.ScintillaSpellCheck) 
 
 
-[![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)]()
+[![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)](https://www.jetbrains.com/?from=VPKSoft.ScintillaSpellCheck)
