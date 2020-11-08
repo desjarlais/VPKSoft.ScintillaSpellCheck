@@ -1,21 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net47</TargetFramework>
-    <AssemblyTitle>VPKSoft.ScintillaSpellCheck.SUO</AssemblyTitle>
-    <Product>VPKSoft.ScintillaSpellCheck.SUO</Product>
+    <AssemblyTitle>VPKSoft.ScintillaSpellCheck</AssemblyTitle>
+    <Company>VPKSoft</Company>
+    <Product>VPKSoft.ScintillaSpellCheck</Product>
+    <Description>A spell checking library for the ScintillaNET.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <DocumentationFile>bin\$(Configuration)\VPKSoft.ScintillaSpellCheck.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Version>1.0.3</Version>
-    <Authors>VPKSoft</Authors>
-    <Company>VPKSoft</Company>
-    <Description>A spell checking library for the ScintillaNET.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</PackageProjectUrl>
+    <PackageIcon>vpksoft_logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>scintillanet scintilla spell check unofficial</PackageTags>
+    <PackageTags>scintillanet scintilla spell check</PackageTags>
     <PackageReleaseNotes>See: https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</PackageReleaseNotes>
-    <PackageIcon>vpksoft_logo.png</PackageIcon>
+    <Authors>VPKSoft</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -26,23 +29,27 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+    <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.0.1" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\VPKSoft.ScintillaSpellCheck\ScintillaIndicatorHelper.cs" Link="ScintillaIndicatorHelper.cs" />
-    <Compile Include="..\VPKSoft.ScintillaSpellCheck\ScintillaSpellCheck.cs" Link="ScintillaSpellCheck.cs" />
-    <Compile Include="..\VPKSoft.ScintillaSpellCheck\WordHandleEventArgs.cs" Link="WordHandleEventArgs.cs" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\vpksoft_logo.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath />
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="unofficial.ScintillaNET" Version="3.6.51" />
-    <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.0.1" />
-    <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
 </Project>
