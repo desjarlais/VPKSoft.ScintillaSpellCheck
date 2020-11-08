@@ -1,6 +1,8 @@
 # VPKSoft.ScintillaSpellCheck
 A spell checking library for the ScintillaNET.
 
+[![Nuget](https://img.shields.io/nuget/v/VPKSoft.ScintillaSpellCheck)](https://www.nuget.org/packages/VPKSoft.ScintillaSpellCheck/)
+
 ## Thanks to
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to which this software will add the spell checking possibility.
 * [WeCantSpell: Hunspell](https://github.com/aarondandy/WeCantSpell.Hunspell) for making this library possible.
