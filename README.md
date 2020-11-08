@@ -9,6 +9,16 @@ A spell checking library for the ScintillaNET.
 
 ![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
 
+## The SUO package
+The SUO stands for [unofficial.ScintillaNET](https://www.nuget.org/packages/unofficial.ScintillaNET/) dependency which is updated with the recent pull requests build from this [ScintillaNET fork](https://github.com/VPKSoft/ScintillaNET) from the original [ScintillaNET](https://github.com/jacobslusser/ScintillaNET). The fork was made to try to keep up with the changes to the code base suggested by users as the official version is getting outdated for unknown reason(s) 🙄.
 
 ## Screenshot
 ![image](https://user-images.githubusercontent.com/40712699/57182641-0a6e3080-6eaa-11e9-86e9-9933d619e16a.png)
+
+
+### Thanks to
+* [JetBrains](https://www.jetbrains.com/?from=VPKSoft.ScintillaSpellCheck) for their open source license(s).
+* [![VPKSoft](https://circleci.com/gh/VPKSoft/VPKSoft.ScintillaSpellCheck.svg?style=shield)](https://app.circleci.com/pipelines/github/VPKSoft/VPKSoft.ScintillaSpellCheck) 
+
+
+[![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)]()
