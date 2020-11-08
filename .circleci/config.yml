@@ -16,7 +16,7 @@
      steps:
        - checkout
        - run: msbuild VPKSoft.ScintillaSpellCheck/VPKSoft.ScintillaSpellCheck.csproj /t:restore
-       - run: msbuild VPKSoft.ScintillaSpellCheck/VPKSoft.ScintillaSpellCheck.SUO.csproj /p:Configuration=Release
+       - run: msbuild VPKSoft.ScintillaSpellCheck.SUO/VPKSoft.ScintillaSpellCheck.SUO.csproj /p:Configuration=Release
 # No need for bleeding edge       - run: dotnet tool install --global PowerShell
        - run: 
           name: Push to NuGet
