@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net47;net5.0-windows</TargetFrameworks>
     <AssemblyTitle>VPKSoft.ScintillaSpellCheck.SUO</AssemblyTitle>
     <Product>VPKSoft.ScintillaSpellCheck.SUO</Product>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>VPKSoft</Authors>
     <Company>VPKSoft</Company>
     <Description>A spell checking library for the ScintillaNET.</Description>
@@ -19,8 +19,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,7 +46,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="unofficial.ScintillaNET" Version="3.7.0" />
+    <PackageReference Include="unofficial.ScintillaNET" Version="3.8.1" />
     <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.1" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
