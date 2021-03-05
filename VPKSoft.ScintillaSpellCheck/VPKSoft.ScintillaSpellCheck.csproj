@@ -6,11 +6,11 @@
     <Product>VPKSoft.ScintillaSpellCheck</Product>
     <Description>A spell checking library for the ScintillaNET.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\VPKSoft.ScintillaSpellCheck.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Version>1.0.3</Version>
+    <Version>1.0.7</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck</PackageProjectUrl>
     <PackageIcon>vpksoft_logo.png</PackageIcon>
@@ -34,7 +34,7 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
-    <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.1" />
+    <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.2" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
