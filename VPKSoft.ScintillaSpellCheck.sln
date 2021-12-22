@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPKSoft.ScintillaSpellCheck
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPKSoft.ScintillaSpellCheck.NET", "VPKSoft.ScintillaSpellCheck.NET\VPKSoft.ScintillaSpellCheck.NET.csproj", "{6D27542D-AF5D-4F5A-A66A-034847049685}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CBC2E42-4D99-4C34-AA31-8C71697879D3}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-desktop.yml = .github\workflows\dotnet-desktop.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -53,13 +53,13 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Create the VPKSoft.ScintillaLexers app package by building and packaging the NuGet
-    - name: Create the VPKSoft.ScintillaLexers NuGet package
+    # Create the VPKSoft.ScintillaSpellCheck app package by building and packaging the NuGet
+    - name: Create the VPKSoft.ScintillaSpellCheck NuGet package
       run: msbuild $env:App_Project_Path_1 /p:Configuration=$env:Configuration
 
 
-    # Create the VPKSoft.ScintillaLexers.NET app package by building and packaging the NuGet
-    - name: Create the VPKSoft.ScintillaLexers.NET NuGet package
+    # Create the VPKSoft.ScintillaSpellCheck.NET app package by building and packaging the NuGet
+    - name: Create the VPKSoft.ScintillaSpellCheck.NET NuGet package
       run: msbuild $env:App_Project_Path_2 /p:Configuration=$env:Configuration
 
     - name: Decode nuget.config
