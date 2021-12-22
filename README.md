@@ -1,7 +1,7 @@
 # VPKSoft.ScintillaSpellCheck
 A spell checking library for the ScintillaNET.
 
-[![Nuget](https://img.shields.io/nuget/v/VPKSoft.ScintillaSpellCheck)](https://www.nuget.org/packages/VPKSoft.ScintillaSpellCheck/)
+[![Nuget](https://img.shields.io/nuget/v/VPKSoft.ScintillaSpellCheck.NET)](https://www.nuget.org/packages/VPKSoft.ScintillaSpellCheck.NET/)
 
 ## Thanks to
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) to which this software will add the spell checking possibility.
@@ -11,8 +11,9 @@ A spell checking library for the ScintillaNET.
 
 ![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
 
-## The SUO package
-The SUO stands for [unofficial.ScintillaNET](https://www.nuget.org/packages/unofficial.ScintillaNET/) dependency which is updated with the recent pull requests build from this [ScintillaNET fork](https://github.com/VPKSoft/ScintillaNET) from the original [ScintillaNET](https://github.com/jacobslusser/ScintillaNET). The fork was made to try to keep up with the changes to the code base suggested by users as the official version is getting outdated for unknown reason(s) 🙄.
+
+## The .NET package
+The package ending with .NET is depended upon the new Scintilla 5 series [Scintilla.NET](https://www.nuget.org/packages/Scintilla.NET/) and is in active development. The other package's Scintilla dependency is no longer being maintained even though the codebase of the dependent software may be maintained.
 
 ## Screenshot
 ![image](https://user-images.githubusercontent.com/40712699/57182641-0a6e3080-6eaa-11e9-86e9-9933d619e16a.png)
@@ -20,7 +21,7 @@ The SUO stands for [unofficial.ScintillaNET](https://www.nuget.org/packages/unof
 
 ### Thanks to
 * [JetBrains](https://www.jetbrains.com/?from=VPKSoft.ScintillaSpellCheck) for their open source license(s).
-* [![VPKSoft](https://circleci.com/gh/VPKSoft/VPKSoft.ScintillaSpellCheck.svg?style=shield)](https://app.circleci.com/pipelines/github/VPKSoft/VPKSoft.ScintillaSpellCheck) 
+* [![.NET Desktop](https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/VPKSoft/VPKSoft.ScintillaSpellCheck/actions/workflows/dotnet-desktop.yml)
 
 
 [![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)](https://www.jetbrains.com/?from=VPKSoft.ScintillaSpellCheck)
