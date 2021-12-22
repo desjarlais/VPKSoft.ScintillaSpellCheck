@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{AFDD91B4-B38A-4AAE-B7E8-D9E968A30693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{AFDD91B4-B38A-4AAE-B7E8-D9E968A30693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPKSoft.ScintillaSpellCheck", "VPKSoft.ScintillaSpellCheck\VPKSoft.ScintillaSpellCheck.csproj", "{BC90D222-7017-425B-B976-DA9A63902951}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPKSoft.ScintillaSpellCheck", "VPKSoft.ScintillaSpellCheck\VPKSoft.ScintillaSpellCheck.csproj", "{BC90D222-7017-425B-B976-DA9A63902951}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPKSoft.ScintillaSpellCheck.SUO", "VPKSoft.ScintillaSpellCheck.SUO\VPKSoft.ScintillaSpellCheck.SUO.csproj", "{C3C1A496-B5A6-4F34-BED4-E14CB75E14C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPKSoft.ScintillaSpellCheck.NET", "VPKSoft.ScintillaSpellCheck.NET\VPKSoft.ScintillaSpellCheck.NET.csproj", "{6D27542D-AF5D-4F5A-A66A-034847049685}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{BC90D222-7017-425B-B976-DA9A63902951}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC90D222-7017-425B-B976-DA9A63902951}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC90D222-7017-425B-B976-DA9A63902951}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3C1A496-B5A6-4F34-BED4-E14CB75E14C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3C1A496-B5A6-4F34-BED4-E14CB75E14C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3C1A496-B5A6-4F34-BED4-E14CB75E14C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3C1A496-B5A6-4F34-BED4-E14CB75E14C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D27542D-AF5D-4F5A-A66A-034847049685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D27542D-AF5D-4F5A-A66A-034847049685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D27542D-AF5D-4F5A-A66A-034847049685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D27542D-AF5D-4F5A-A66A-034847049685}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
