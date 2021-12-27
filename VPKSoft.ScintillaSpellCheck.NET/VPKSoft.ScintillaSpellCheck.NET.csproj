@@ -5,7 +5,7 @@
     <Product>VPKSoft.ScintillaSpellCheck.NET</Product>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Version>1.0.9</Version>
+    <Version>1.0.10</Version>
     <Authors>VPKSoft</Authors>
     <Company>VPKSoft</Company>
     <Description>A spell checking library for the ScintillaNET.</Description>
@@ -44,7 +44,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Scintilla.NET" Version="5.1.5.1" />
+    <PackageReference Include="Scintilla.NET" Version="5.1.5.3" />
     <PackageReference Include="VPKSoft.SpellCheck.ExternalDictionarySource" Version="1.0.2" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
